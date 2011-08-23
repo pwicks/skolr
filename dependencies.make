@@ -5,6 +5,10 @@ api = 2
 
 projects[drupal][version] = 6.22
 
+projects[do_poster][type] = module
+projects[do_poster][download][type] = git
+projects[do_poster][download][url] = git@github.com:ezwart/skolr.git
+
 projects[autoassignrole][version] = 2.0-beta1
 projects[computed_field][version] = 1.0-beta5
 projects[ctools][version] = 1.8
