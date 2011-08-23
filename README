@@ -1,0 +1,18 @@
+This feature begain its life as the DigitalOcean Poster Service (do_poster).  It's now being referred to by its other name, Skolr.
+
+To build, clone the repo, and run the dependencies.make file using Drush Make.
+
+1. clone the repo
+2. make a drupal installation with all the necessary modules
+3. enable the skolr module (legacy name: do_poster)
+
+Example:
+
+$ git clone git://github.com/ezwart/skolr.git
+$ drush make skolr/dependencies.make drupal
+$ cd drupal
+$ drush en do_poster -y
+
+
+ 
+
