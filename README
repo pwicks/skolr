@@ -16,9 +16,10 @@ Example:
 
 $ git clone git://github.com/ezwart/skolr.git
 $ drush make skolr/dependencies.make drupal
-$ mysql -u root -p
 
 (optional: use if setting up the site for the first time)
+$ mysql -u root -p
+
 mysql> CREATE DATABASE skolr;
 mysql> GRANT ALL ON skolr.* TO skolr@localhost IDENTIFIED BY 'fakepwd';
 mysql> exit
