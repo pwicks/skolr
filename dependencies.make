@@ -28,6 +28,18 @@ projects[gmap][version] = 1.1
 projects[gmap_geo][version] = 1.x-dev
 projects[imagecache][version] = 2.0-beta12
 projects[imagefield][version] = 3.10
+
+projects[jquery_update][version] = 2.x-dev
+projects[jquery_ui][version] = 1.5
+
+libraries[jquery_ui][download][type] = file
+libraries[jquery_ui][download][url] = http://jquery-ui.googlecode.com/files/jquery-ui-1.7.3.zip
+libraries[jquery_ui][download][sha1] = 7707d98bce0c90b06fdd3cd3acbf53c46a2aceb5
+libraries[jquery_ui][directory_name] = jquery.ui
+
+projects[services][version] = 2.x-dev
+projects[deploy][version] = 1.x-dev
+
 projects[lightbox2][version] = 1.11
 projects[link][version] = 2.9
 projects[location][version] = 3.1
