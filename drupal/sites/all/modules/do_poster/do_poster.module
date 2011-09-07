@@ -1,0 +1,457 @@
+<?php
+
+include_once('do_poster.features.inc');
+
+/**
+ * Implementation of hook_menu().
+ *
+ * @return An array of menu items.
+ */
+function do_poster_menu() {
+  $items = array();
+
+  $items['meetings'] = array(
+    'title' => 'Meetings',
+    'description' => 'View your meetings',
+    'access callback' => 'do_poster_meetings_access',
+    'access arguments' => array(array('meeting organizer', 'meeting attendee', 'administrator')),
+    'page callback' => 'do_poster_meetings_page',
+  );
+
+  $items['posters'] = array(
+    'title' => 'Posters',
+    'description' => 'View your posters',
+    'access callback' => 'do_poster_meetings_access',
+    'access arguments' => array(array('poster presenter', 'administrator')),
+    'page callback' => 'do_poster_posters_page',
+  );
+
+//  $items['node/%/poster-list'] = array(
+//    'title' => 'Poster List',
+//    'type' => MENU_CALLBACK,
+//    'description' => 'View list of poster for printing',
+//    'access callback' => 'do_poster_admin_access',
+//    'access arguments' => array(1),
+//    'page callback' => 'do_poster_admin_posters',
+//  );
+    return $items;
+}
+
+function do_poster_admin_access($meeting_nid) {
+  return og_is_group_admin(node_load($meeting_nid));
+}
+
+function do_poster_admin_posters() {
+  $meeting = og_get_group_context();
+  return views_embed_view('meeting_admin', 'panel_pane_1', $meeting->nid);
+}
+
+function do_poster_meetings_access($roles) {
+  global $user;
+
+  foreach ($user->roles as $role) {
+    if (in_array($role, $roles)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function do_poster_meetings_page() {
+  global $user;
+  return views_embed_view('my_meetings', 'page_1', $user->uid);
+}
+
+function do_poster_posters_page() {
+  global $user;
+  return views_embed_view('my_posters', 'page_1', $user->uid);
+}
+
+function do_poster_search_submit(&$form, &$form_state) {
+  $meeting = og_get_group_context();
+//  dpm($meeting, 'meeting here');
+
+  // set redirect to meeting page
+  // search_query_insert() og_ancestry this group, published etc
+
+  $form_state['redirect'] = 'node/' . $meeting->nid . '/search';
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function do_poster_form_alter(&$form, $form_state, $form_id) {
+
+  switch ($form_id) {
+
+    case 'views_exposed_form':
+      $form['submit']['#value'] = 'Search';
+      $form['reset']['#value'] = preg_replace('/value="Reset"/', 'value="Clear"', $form['reset']['#value']);
+    break;
+
+    case 'meeting_node_form':
+
+      // change reg key help text
+      $form['og_reg_keys']['#description'] = 'Create a registration key to allow users to join the meeting (eg, "MyMeeting2011").';
+      $form['og_reg_keys']['#required'] = true;
+
+      // change group description language
+      $form['og_description']['#description'] = 'A brief description of the meeting for use in directory lists.';
+
+      // hide and set some defaults
+      $form['og_register']['#type'] = 'hidden';
+      $form['og_register']['#value'] = '0';
+
+      $form['og_directory']['#type'] = 'hidden';
+      $form['og_directory']['#value'] = '0';
+
+      $form['og_selective']['#type'] = 'hidden';
+
+      $form['og_private']['#type'] = 'hidden';
+      $form['og_private']['#value'] = '1';
+
+      // move description and regkey to group_meeting fieldset
+      $form['group_meeting']['og_description'] = $form['og_description'];
+      // need this line? http://drupal.org/node/786796#comment-2913802
+      //$form['group_meeting']['og_description']['#parents'] = array('og_description');
+      unset($form['og_description']);
+
+      $form['group_meeting']['og_reg_keys'] = $form['og_reg_keys'];
+      // need this line? http://drupal.org/node/786796#comment-2913802
+      //$form['group_meeting']['og_reg_keys']['#parents'] = array('og_reg_keys');
+      unset($form['og_reg_keys']);
+
+    break;
+
+    case 'poster_node_form':
+
+      $meeting = og_get_group_context();
+//      dpm($meeting, 'meeting');
+//      dpm($form, 'form');
+//      dpm($form_state, 'form state');
+
+      // remove group selection fieldset (see fix in do_poster_nodeapi() -> presave
+      $form['og_nodeapi']['#access'] = false;
+//      $form['og_nodeapi']['#element_validate'][] = 'do_poster_validate';
+
+      // add meeting instructions to main details section
+      $instructions = array_shift($meeting->field_meeting_extra_rules);
+
+      if (!empty($instructions['value'])) {
+        $form['group_poster_main']['instructions'] = array(
+          '#type' => 'item',
+          '#title' => 'Instructions',
+          '#value' => $instructions['value'],
+          '#weight' => -40,
+        );
+      }
+      // display the deadline and disable publish checkbox if necessary
+      $form['options']['status']['#description'] = 'Publishing your poster makes it visible to other meeting attendees.';
+      $cck_deadline = array_shift($meeting->field_meeting_deadline);
+      $deadline = new DateTime($cck_deadline['value']);
+      $now = new DateTime();
+
+      $form['options']['deadline'] = array(
+        '#type' => 'item',
+        '#value' => date_format_date($deadline),
+        '#title' => t('Deadline'),
+        '#description' => 'You cannot publish your poster after this date.',
+      );
+
+      if ($now > $deadline) {
+        $form['options']['deadline']['#title'] = t('Deadline Passed');
+        $form['options']['deadline']['#attributes'] = array('class' => 'error');
+        $form['options']['status']['#description'] = "The deadline to publish has passed.  Contact the meeting organizer for further details.";
+
+        if ($form['options']['status']['#default_value'] == 0) {
+          // disallow publishing after deadline
+          $form['options']['status']['#disabled'] = true;
+        } else {
+          // already published, warn that uppublishing cannot be undone
+          $form['options']['status']['#description'] = "The deadline to publish has passed.  If you unpublish now, you will not be able to re-publish your poster.  Contact the meeting organizer for further details.";
+        }
+      }
+
+      // set the abstract max
+      $abstract_max = array_shift($meeting->field_meeting_abstract_max);
+
+      if (!empty($abstract_max)) {
+        $abstract_word_limit_data = array(
+          'field_name' => 'field_abstract',
+          'count_length' => $abstract_max['value'],
+          'count_type' => '1',
+        );
+        module_load_include('module', 'cck_count');
+        _cck_count_injectjavascript(array('field_abstract' => $abstract_word_limit_data));
+      }
+
+      // set taxonomy as fieldgroup
+      $form['taxonomy']['#type'] = 'fieldset';
+      $form['taxonomy']['#title'] = 'Metadata';
+      $form['taxonomy']['#description'] = 'Check if terms already exist in the system by typing the first few letters. Separate multiple terms with a comma. This creates better searches.';
+
+      // add dimension info on poster fieldgroup, if necessary
+      $max_height = $meeting->field_meeting_poster_max_height[0]['value'];
+      $max_width = $meeting->field_meeting_poster_max_width[0]['value'];
+
+      if (!empty($max_height) || !empty($max_width)) {
+
+        $form['group_poster_poster']['dimensions'] = array(
+          '#type' => 'fieldset',
+          '#title' => 'Maximum Dimensions',
+          '#description' => 'These maxima are for the poster you print and bring to the meeting.  The poster you upload here may differ slightly.',
+        );
+
+        if (!empty($max_width)) {
+          $form['group_poster_poster']['dimensions']['max_width'] = array(
+            '#type' => 'item',
+            '#title' => 'Maximum Width',
+            '#value' => $max_width,
+          );
+        }
+        if (!empty($max_height)) {
+          $form['group_poster_poster']['dimensions']['max_height'] = array(
+          	'#type' => 'item',
+          	'#title' => 'Maximum Height',
+            '#value' => $max_height,
+          );
+        }
+      }
+    break;
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ *
+ * presave: This fix is needed to restore a poster's association with a meeting
+ * save: upon saving a poster, create the presets
+ *
+ * @see http://drupal.org/node/967640
+ *
+ * @param &$node The node the action is being performed on.
+ * @param $op What kind of action is being performed. Possible values: alter, delete, delete revision, insert, load, prepare, prepare translation, print, rss item, search result, presave, update, update index, validate, view
+ * @param $a3
+ * @param $a4
+ */
+function do_poster_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  switch ($op) {
+    case 'presave':
+      $meeting = og_get_group_context();
+
+      if (!empty($meeting)) {
+        $node->og_groups[$meeting->nid] = $meeting->nid;
+      } else {
+        // TODO: handle error
+      }
+    break;
+
+    case 'update':
+      if ($node && $node->type == 'poster') {
+        $poster = $node->field_poster[0];
+
+//        dpm($node, 'node');
+//        dpm($poster, 'poster');
+        if (!empty($poster)) {
+
+          // call imagecache to build presets now
+          $presets = array('pdf-thumb', 'pdf-preview', 'pdf-orig');
+          foreach ($presets as $preset) {
+            _do_poster_preset_refresh($preset, $poster['filepath']);
+          }
+        }
+      }
+    break;
+  }
+}
+
+/**
+ * Helper function which creates a preset derivative if it doesn't yet exist or is
+ * older than the current file it represents.
+ *
+ * @param string $preset
+ * @param string $file_path
+ */
+function _do_poster_preset_refresh($preset, $file_path) {
+
+  $preset_src = imagecache_create_path($preset, $file_path); //. '.jpg';
+  $preset_obj = imagecache_preset_by_name($preset);
+
+  // if not yet there, or older than the pdf (ie, pdf has been re-uploaded)
+  if (!file_exists($preset_src) || (filemtime($file_path) > filemtime($preset_src)) ) {
+    $success = imagecache_build_derivative($preset_obj['actions'], $file_path, $preset_src);
+    if ($success) {
+      watchdog('do_poster', 'do_poster_nodeapi:save - built new derivative for !file at !derviative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_INFO);
+    } else {
+      watchdog('do_poster', 'do_poster_nodeapi:save - imagecache_build_derivative() failed using file !file and derivative !derivative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_WARNINGC);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_block().
+ *
+ * @param $op What kind of information to retrieve about the block. Possible values: list, configure, save, view.
+ * @param $delta Which block to return.
+ * @param $edit Data from a configuration form, if submitted.
+ */
+function do_poster_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+
+    case 'list':
+      $blocks[0] = array(
+        'info' => t('Meeting Details'),
+        'cache' => BLOCK_NO_CACHE,
+      );
+    return $blocks;
+
+    case 'view': default:
+      switch ($delta) {
+        case 0:
+          return do_poster_block_details();
+        break;
+    }
+  }
+}
+
+/**
+ * Build Meeting Details block
+ */
+function do_poster_block_details() {
+  global $user;
+  $meeting = og_get_group_context();
+
+  // Only display group details if we have a meeting group context with view privileges
+  if (!empty($meeting) && ($meeting->type == 'meeting') && node_access('view', $meeting)) {
+    list($txt, $subscription) = og_subscriber_count_link($meeting);
+    if ($subscription == 'active' || user_access('administer nodes')) {
+
+//      see og_og_create_links() // $links = module_invoke_all('og_create_links', $meeting);
+      $links = do_poster_meeting_details_links($meeting, $user);
+
+      $links['subscribers'] = $txt;
+      $links['manager'] = t('Meeting Organizer: !name', array('!name' => theme('username', $meeting)));
+
+      // Site admins get a Join link if they are not yet subscribed.
+      $subscribe = isset($subscription) && og_is_group_member($meeting->nid, FALSE) ? l(t('My membership'), "og/manage/$meeting->nid") : og_subscribe_link($meeting);
+      if(isset($subscribe)) {
+        $links['my_membership'] = $subscribe;
+      }
+    }
+    elseif ($subscription == 'requested') {
+      $links['approval'] = t('Your membership request awaits approval.');
+      $links['delete'] = l(t('Delete request'), "og/unsubscribe/$meeting->nid/$user->uid", array('query' => 'destination=og'));
+    }
+    elseif (!$user->uid) {
+      $dest = drupal_get_destination();
+      if (variable_get('user_register', 1) == 0) {
+        $links['must_login'] = t('You must <a href="!login">login</a> in order to post into this group.', array('!login' => url("user/login", array('query' => $dest))));
+      }
+      else {
+        $links['must_login'] = t('You must <a href="!register">register</a> or <a href="!login">login</a> in order to post into this group.', array('!register' => url("user/register", array('query' => $dest)), '!login' => url("user/login", array('query' => $dest))));
+      }
+    }
+    elseif ($meeting->og_selective < OG_INVITE_ONLY) {
+      $links['subscribe'] = og_subscribe_link($meeting);
+    }
+    elseif ($meeting->og_selective == OG_INVITE_ONLY) {
+      $links['closed'] = t('This is an <em>invite only</em> group. The group administrators add/remove members as needed.');
+    }
+    elseif ($meeting->og_selective == OG_CLOSED) {
+      $links['closed'] = t('This is a <em>closed</em> group. The group administrators add/remove members as needed.');
+    }
+
+    // Modify these links by reference. If you want control of the whole block, see og_block_details().
+    drupal_alter('og_links', $links, $meeting);
+
+    $block['content'] = theme('item_list', $links);
+    $block['subject'] = l($meeting->title, "node/$meeting->nid");
+    return $block;
+  }  // else no group context
+}
+
+/**
+ * Build links for meeting details block.
+ *
+ * @param object $meeting
+ * @param object $user
+ *
+ * @return array The list of links
+ */
+function do_poster_meeting_details_links($meeting, $user) {
+  $links = array();
+
+  if (og_is_group_admin($meeting)) {
+    $links['admin_meeting'] = l(t('Poster List'), 'node/' . $meeting->nid . '/poster-list',
+      array(
+        'attributes' => array('title' => t('View list of posters for printing')),
+      ));
+  }
+
+  if (in_array('poster presenter', $user->roles) && node_access('create', 'poster', $user)) {
+
+    // check if user has existing poster in this meeting
+    $q = "select n1.nid from og_ancestry n1 where n1.group_nid = %d and n1.nid in (select n2.nid from node n2 where uid = %d)";
+    $result = db_result(db_query($q, $meeting->nid, $user->uid));
+
+    if (!empty($result)) {
+      // user has poster in this meeting
+      $poster = node_load($result);
+
+      $links['view_poster'] = l(t('View Poster'), $poster->path,
+        array(
+          'attributes' => array('title' => t('View your poster')),
+        ));
+
+      $links['edit_poster'] = l(t('Edit Poster'), 'node/' . $poster->nid . '/edit',
+        array(
+          'attributes' => array('title' => t('Edit your poster')),
+        ));
+
+
+    } else {
+      // user doesn't have poster, check meeting not full
+      $q = "select count(*) from og_ancestry where group_nid = %d";
+      $result = db_result(db_query($q, $meeting->nid));
+
+      if ($result < $meeting->field_meeting_max_posters[0]['value']) {
+        // meeting not full
+        $links['create_poster'] = l(t('Create Poster'), "node/add/poster",
+          array(
+  					'attributes' => array('title' => t('Add a new poster to this meeting.')),
+  					'query' => "gids[]=$meeting->nid",
+          ));
+      } else {
+        drupal_set_message("Meeting full.  No new posters can be added to this meeting. Contact the meeting organizer for further details.");
+      }
+    }
+  }
+
+  return $links;
+}
+
+/**
+ * Remove meeting organizer can edit posters
+ *
+ * @see http://drupal.org/node/937824
+ */
+function do_poster_og_access_grants_alter($grants, $node) {
+  foreach ($grants as $key => $grant) {
+    if($grant['realm'] == 'og_admin') {
+      $grants[$key]['grant_view'] = 1;
+      $grants[$key]['grant_update'] = NULL;
+      $grants[$key]['grant_delete'] = NULL;
+    }
+  }
+
+  return $grants;
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function do_poster_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return 'panels/' . $plugin;
+  }
+}

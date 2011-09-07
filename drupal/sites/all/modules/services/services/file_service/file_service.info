@@ -1,0 +1,11 @@
+core            = "6.x"
+dependencies[]  = services
+description     = "Provides a file service."
+name            = "File Service"
+package         = "Services - services"
+; Information added by drupal.org packaging script on 2011-06-19
+version = "6.x-2.x-dev"
+core = "6.x"
+project = "services"
+datestamp = "1308444090"
+
