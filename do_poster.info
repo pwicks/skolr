@@ -1,5 +1,6 @@
 core = "6.x"
 dependencies[] = "admin"
+dependencies[] = 'adminrole'
 dependencies[] = "autoassignrole"
 dependencies[] = "computed_field"
 dependencies[] = "ctools"

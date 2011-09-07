@@ -9,10 +9,13 @@ projects[do_poster][type] = module
 projects[do_poster][download][type] = git
 projects[do_poster][download][url] = git@github.com:ezwart/skolr.git
 
+projects[admin][version] = 2.0
 projects[autoassignrole][version] = 2.0-beta1
 projects[computed_field][version] = 1.0-beta5
 projects[ctools][version] = 1.8
 ; enable page_manager, views_content
+
+projects[adminrole][version] = 1.3
 
 projects[date][version] = 2.7
 ; enable date_api, date_timezone
@@ -55,6 +58,7 @@ projects[panels][version] = 3.9
 
 projects[strongarm][version] = 2.0
 projects[transliteration][version] = 3.0
+projects[vertical_tabs][version] = 1.0-rc2
 projects[views_hacks][version] = 1.0-beta2
 ; enable views_filters_reset
 
