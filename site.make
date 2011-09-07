@@ -5,10 +5,7 @@ api = 2
 
 projects[drupal][version] = 6.22
 
-projects[skolr][type] = module
-projects[skolr][download][type] = git
-projects[skolr][download][url] = git@github.com:ezwart/skolr.git
-projects[skolr][subdir] = 'custom'
+includes[skolr] = 'skolr.make'
 
 projects[admin][version] = 2.0
 projects[admin][subdir] = "contrib"
@@ -33,6 +30,9 @@ projects[date][subdir] = "contrib"
 
 projects[features][version] = 1.1
 projects[features][subdir] = "contrib"
+
+projects[diff][version] = 2.3
+projects[diff][subdir] = "contrib"
 
 projects[cck][version] = 2.9
 projects[cck][subdir] = "contrib"
@@ -95,7 +95,7 @@ projects[panels][subdir] = "contrib"
 ; enable panels_mini, taxonomy
 
 projects[strongarm][version] = 2.0
-projects[strongarm][patches][] = "http://drupal.org/files/issues/792472_15_node_pipe.patch"
+projects[strongarm][patch][] = "http://drupal.org/files/issues/792472_15_node_pipe.patch"
 projects[strongarm][subdir] = "contrib"
 
 projects[transliteration][version] = 3.0
