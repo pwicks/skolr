@@ -5,11 +5,12 @@ api = 2
 
 projects[drupal][version] = 6.22
 
-projects[do_poster][type] = module
-projects[do_poster][download][type] = git
-projects[do_poster][download][url] = git@github.com:ezwart/skolr.git
+projects[skolr][type] = module
+projects[skolr][download][type] = git
+projects[skolr][download][url] = git@github.com:ezwart/skolr.git
 
 projects[admin][version] = 2.0
+
 projects[autoassignrole][version] = 2.0-beta1
 projects[computed_field][version] = 1.0-beta5
 projects[ctools][version] = 1.8
@@ -23,6 +24,7 @@ projects[date][version] = 2.7
 projects[features][version] = 1.1
 projects[cck][version] = 2.9
 ; enable text, fieldgroup, number, optionwidgets, content
+projects[cck_count][version] = 1.x-dev
 
 projects[geo][version] = 1.0-alpha5
 ; enable geo_field
@@ -57,6 +59,8 @@ projects[panels][version] = 3.9
 ; enable panels_mini, taxonomy
 
 projects[strongarm][version] = 2.0
+projects[strongarm][patches][] = "http://drupal.org/files/issues/792472_15_node_pipe.patch"
+
 projects[transliteration][version] = 3.0
 projects[vertical_tabs][version] = 1.0-rc2
 projects[views_hacks][version] = 1.0-beta2
@@ -64,6 +68,7 @@ projects[views_hacks][version] = 1.0-beta2
 
 projects[imageapi][version] = 1.10
 projects[filefield][version] = 3.10
+
 
 projects[views][version] = 3.x-dev
 
