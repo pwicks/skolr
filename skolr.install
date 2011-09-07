@@ -6,12 +6,12 @@
  * @see http://drupal.org/node/150215
  * @see http://drupal.org/node/110238
  */
-function do_poster_update_6001() {
+function skolr_update_6001() {
   $weight = db_result(db_query("SELECT MAX(weight) FROM {system} WHERE type = 'module' AND (name LIKE 'og%' OR name = 'fieldgroup')"));
   $weight++;
 
    // NOTE: update_sql() doesn't support %-substitution parameters
-  $ret[] = update_sql("UPDATE {system} SET weight = $weight WHERE type = 'module' AND name = 'do_poster'");
+  $ret[] = update_sql("UPDATE {system} SET weight = $weight WHERE type = 'module' AND name = 'skolr'");
 
   return $ret;
 }

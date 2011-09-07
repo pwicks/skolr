@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_fieldgroup_default_groups().
  */
-function do_poster_fieldgroup_default_groups() {
+function skolr_fieldgroup_default_groups() {
   $groups = array();
 
   // Exported group: group_meeting

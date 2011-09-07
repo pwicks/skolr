@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_menu_default_menu_links().
  */
-function do_poster_menu_default_menu_links() {
+function skolr_menu_default_menu_links() {
   $menu_links = array();
 
   // Exported menu link: primary-links:meetings
@@ -17,7 +17,7 @@ function do_poster_menu_default_menu_links() {
         'title' => 'View your meetings',
       ),
     ),
-    'module' => 'do_poster',
+    'module' => 'skolr',
     'hidden' => '0',
     'external' => '0',
     'has_children' => '0',
@@ -36,7 +36,7 @@ function do_poster_menu_default_menu_links() {
         'title' => 'A a new conference meeting',
       ),
     ),
-    'module' => 'do_poster',
+    'module' => 'skolr',
     'hidden' => '0',
     'external' => '0',
     'has_children' => '0',
@@ -55,7 +55,7 @@ function do_poster_menu_default_menu_links() {
         'title' => 'View your posters',
       ),
     ),
-    'module' => 'do_poster',
+    'module' => 'skolr',
     'hidden' => '0',
     'external' => '0',
     'has_children' => '0',

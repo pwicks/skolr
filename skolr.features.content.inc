@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_content_default_fields().
  */
-function do_poster_content_default_fields() {
+function skolr_content_default_fields() {
   $fields = array();
 
   // Exported field: field_meeting_abstract_max

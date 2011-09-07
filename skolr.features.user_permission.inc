@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_user_default_permissions().
  */
-function do_poster_user_default_permissions() {
+function skolr_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: create meeting content

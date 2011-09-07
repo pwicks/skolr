@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_views_default_views().
  */
-function do_poster_views_default_views() {
+function skolr_views_default_views() {
   $views = array();
 
   // Exported view: meeting_admin
@@ -35,7 +35,7 @@ function do_poster_views_default_views() {
   $handler->display->display_options['header']['text']['empty'] = FALSE;
   $handler->display->display_options['header']['text']['content'] = '<?php
 
-//print drupal_get_form(\'do_poster_print_posters_form\');
+//print drupal_get_form(\'skolr_print_posters_form\');
 ?>';
   $handler->display->display_options['header']['text']['format'] = '3';
   /* Empty text: Global: Text area */

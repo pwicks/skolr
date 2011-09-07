@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_ctools_plugin_api().
  */
-function do_poster_ctools_plugin_api() {
+function skolr_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => 1);
@@ -19,7 +19,7 @@ function do_poster_ctools_plugin_api() {
 /**
  * Implementation of hook_imagecache_default_presets().
  */
-function do_poster_imagecache_default_presets() {
+function skolr_imagecache_default_presets() {
   $items = array(
     'pdf-orig' => array(
       'presetname' => 'pdf-orig',
@@ -121,7 +121,7 @@ if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
 /**
  * Implementation of hook_node_info().
  */
-function do_poster_node_info() {
+function skolr_node_info() {
   $items = array(
     'meeting' => array(
       'name' => t('Conference Meeting'),
@@ -152,7 +152,7 @@ function do_poster_node_info() {
 /**
  * Implementation of hook_views_api().
  */
-function do_poster_views_api() {
+function skolr_views_api() {
   return array(
     'api' => '3.0',
   );

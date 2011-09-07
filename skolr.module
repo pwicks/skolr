@@ -1,12 +1,12 @@
 <?php
 
-include_once('do_poster.features.inc');
+include_once('skolr.features.inc');
 
 /**
  * Implementation of hook_init().
  */
-function do_poster_init() {
-  drupal_add_css(drupal_get_path('module', 'do_poster') . '/do_poster.css');
+function skolr_init() {
+  drupal_add_css(drupal_get_path('module', 'skolr') . '/skolr.css');
 }
 
 
@@ -15,46 +15,46 @@ function do_poster_init() {
  *
  * @return An array of menu items.
  */
-function do_poster_menu() {
+function skolr_menu() {
   $items = array();
 
   $items['meetings'] = array(
     'title' => 'Meetings',
     'description' => 'View your meetings',
-    'access callback' => 'do_poster_meetings_access',
+    'access callback' => 'skolr_meetings_access',
     'access arguments' => array(array('meeting organizer', 'meeting attendee', 'administrator')),
-    'page callback' => 'do_poster_meetings_page',
+    'page callback' => 'skolr_meetings_page',
   );
 
   $items['posters'] = array(
     'title' => 'Posters',
     'description' => 'View your posters',
-    'access callback' => 'do_poster_meetings_access',
+    'access callback' => 'skolr_meetings_access',
     'access arguments' => array(array('poster presenter', 'administrator')),
-    'page callback' => 'do_poster_posters_page',
+    'page callback' => 'skolr_posters_page',
   );
 
 //  $items['node/%/poster-list'] = array(
 //    'title' => 'Poster List',
 //    'type' => MENU_CALLBACK,
 //    'description' => 'View list of poster for printing',
-//    'access callback' => 'do_poster_admin_access',
+//    'access callback' => 'skolr_admin_access',
 //    'access arguments' => array(1),
-//    'page callback' => 'do_poster_admin_posters',
+//    'page callback' => 'skolr_admin_posters',
 //  );
     return $items;
 }
 
-function do_poster_admin_access($meeting_nid) {
+function skolr_admin_access($meeting_nid) {
   return og_is_group_admin(node_load($meeting_nid));
 }
 
-function do_poster_admin_posters() {
+function skolr_admin_posters() {
   $meeting = og_get_group_context();
   return views_embed_view('meeting_admin', 'panel_pane_1', $meeting->nid);
 }
 
-function do_poster_meetings_access($roles) {
+function skolr_meetings_access($roles) {
   global $user;
 
   foreach ($user->roles as $role) {
@@ -65,17 +65,17 @@ function do_poster_meetings_access($roles) {
   return false;
 }
 
-function do_poster_meetings_page() {
+function skolr_meetings_page() {
   global $user;
   return views_embed_view('my_meetings', 'page_1', $user->uid);
 }
 
-function do_poster_posters_page() {
+function skolr_posters_page() {
   global $user;
   return views_embed_view('my_posters', 'page_1', $user->uid);
 }
 
-function do_poster_search_submit(&$form, &$form_state) {
+function skolr_search_submit(&$form, &$form_state) {
   $meeting = og_get_group_context();
 //  dpm($meeting, 'meeting here');
 
@@ -88,7 +88,7 @@ function do_poster_search_submit(&$form, &$form_state) {
 /**
  * Implementation of hook_form_alter().
  */
-function do_poster_form_alter(&$form, $form_state, $form_id) {
+function skolr_form_alter(&$form, $form_state, $form_id) {
 
   switch ($form_id) {
 
@@ -138,9 +138,9 @@ function do_poster_form_alter(&$form, $form_state, $form_id) {
 //      dpm($form, 'form');
 //      dpm($form_state, 'form state');
 
-      // remove group selection fieldset (see fix in do_poster_nodeapi() -> presave
+      // remove group selection fieldset (see fix in skolr_nodeapi() -> presave
       $form['og_nodeapi']['#access'] = false;
-//      $form['og_nodeapi']['#element_validate'][] = 'do_poster_validate';
+//      $form['og_nodeapi']['#element_validate'][] = 'skolr_validate';
 
       // add meeting instructions to main details section
       $instructions = array_shift($meeting->field_meeting_extra_rules);
@@ -242,7 +242,7 @@ function do_poster_form_alter(&$form, $form_state, $form_id) {
  * @param $a3
  * @param $a4
  */
-function do_poster_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+function skolr_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   switch ($op) {
     case 'presave':
       $meeting = og_get_group_context();
@@ -265,7 +265,7 @@ function do_poster_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           // call imagecache to build presets now
           $presets = array('pdf-thumb', 'pdf-preview', 'pdf-orig');
           foreach ($presets as $preset) {
-            _do_poster_preset_refresh($preset, $poster['filepath']);
+            _skolr_preset_refresh($preset, $poster['filepath']);
           }
         }
       }
@@ -280,7 +280,7 @@ function do_poster_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
  * @param string $preset
  * @param string $file_path
  */
-function _do_poster_preset_refresh($preset, $file_path) {
+function _skolr_preset_refresh($preset, $file_path) {
 
   $preset_src = imagecache_create_path($preset, $file_path); //. '.jpg';
   $preset_obj = imagecache_preset_by_name($preset);
@@ -289,9 +289,9 @@ function _do_poster_preset_refresh($preset, $file_path) {
   if (!file_exists($preset_src) || (filemtime($file_path) > filemtime($preset_src)) ) {
     $success = imagecache_build_derivative($preset_obj['actions'], $file_path, $preset_src);
     if ($success) {
-      watchdog('do_poster', 'do_poster_nodeapi:save - built new derivative for !file at !derviative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_INFO);
+      watchdog('skolr', 'skolr_nodeapi:save - built new derivative for !file at !derviative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_INFO);
     } else {
-      watchdog('do_poster', 'do_poster_nodeapi:save - imagecache_build_derivative() failed using file !file and derivative !derivative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_WARNINGC);
+      watchdog('skolr', 'skolr_nodeapi:save - imagecache_build_derivative() failed using file !file and derivative !derivative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_WARNINGC);
     }
   }
 }
@@ -303,7 +303,7 @@ function _do_poster_preset_refresh($preset, $file_path) {
  * @param $delta Which block to return.
  * @param $edit Data from a configuration form, if submitted.
  */
-function do_poster_block($op = 'list', $delta = 0, $edit = array()) {
+function skolr_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
 
     case 'list':
@@ -316,7 +316,7 @@ function do_poster_block($op = 'list', $delta = 0, $edit = array()) {
     case 'view': default:
       switch ($delta) {
         case 0:
-          return do_poster_block_details();
+          return skolr_block_details();
         break;
     }
   }
@@ -325,7 +325,7 @@ function do_poster_block($op = 'list', $delta = 0, $edit = array()) {
 /**
  * Build Meeting Details block
  */
-function do_poster_block_details() {
+function skolr_block_details() {
   global $user;
   $meeting = og_get_group_context();
 
@@ -335,7 +335,7 @@ function do_poster_block_details() {
     if ($subscription == 'active' || user_access('administer nodes')) {
 
 //      see og_og_create_links() // $links = module_invoke_all('og_create_links', $meeting);
-      $links = do_poster_meeting_details_links($meeting, $user);
+      $links = skolr_meeting_details_links($meeting, $user);
 
       $links['subscribers'] = $txt;
       $links['manager'] = t('Meeting Organizer: !name', array('!name' => theme('username', $meeting)));
@@ -386,7 +386,7 @@ function do_poster_block_details() {
  *
  * @return array The list of links
  */
-function do_poster_meeting_details_links($meeting, $user) {
+function skolr_meeting_details_links($meeting, $user) {
   $links = array();
 
   if (og_is_group_admin($meeting)) {
@@ -443,7 +443,7 @@ function do_poster_meeting_details_links($meeting, $user) {
  *
  * @see http://drupal.org/node/937824
  */
-function do_poster_og_access_grants_alter($grants, $node) {
+function skolr_og_access_grants_alter($grants, $node) {
   foreach ($grants as $key => $grant) {
     if($grant['realm'] == 'og_admin') {
       $grants[$key]['grant_view'] = 1;
@@ -458,7 +458,7 @@ function do_poster_og_access_grants_alter($grants, $node) {
 /**
  * Implementation of hook_ctools_plugin_directory().
  */
-function do_poster_ctools_plugin_directory($module, $plugin) {
+function skolr_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return 'panels/' . $plugin;
   }

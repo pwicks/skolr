@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_default_page_manager_handlers().
  */
-function do_poster_default_page_manager_handlers() {
+function skolr_default_page_manager_handlers() {
   $export = array();
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -392,7 +392,7 @@ function do_poster_default_page_manager_handlers() {
     $pane->pid = 'new-2';
     $pane->panel = 'location';
     $pane->type = 'block';
-    $pane->subtype = 'do_poster-0';
+    $pane->subtype = 'skolr-0';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -1179,7 +1179,7 @@ function do_poster_default_page_manager_handlers() {
 /**
  * Implementation of hook_default_page_manager_pages().
  */
-function do_poster_default_page_manager_pages() {
+function skolr_default_page_manager_pages() {
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;

@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_taxonomy_default_vocabularies().
  */
-function do_poster_taxonomy_default_vocabularies() {
+function skolr_taxonomy_default_vocabularies() {
   return array(
     'datasets' => array(
       'name' => 'Datasets',

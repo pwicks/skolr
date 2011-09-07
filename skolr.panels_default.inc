@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_default_panels_mini().
  */
-function do_poster_default_panels_mini() {
+function skolr_default_panels_mini() {
   $export = array();
   $mini = new stdClass;
   $mini->disabled = FALSE; /* Edit this to true to make a default mini disabled initially */

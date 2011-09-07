@@ -96,6 +96,10 @@ body.node-type-meeting h1.title {
   padding: 5px 0;
 }
 
+.view-meeting-posters td .views-field-field-poster-fid img {
+  width: 80px;
+}
+
 .view-meeting-posters .views-field-field-poster-fid {
   margin: 5px 0;
   text-align: center;

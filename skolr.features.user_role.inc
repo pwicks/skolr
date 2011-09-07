@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_user_default_roles().
  */
-function do_poster_user_default_roles() {
+function skolr_user_default_roles() {
   $roles = array();
 
   // Exported role: meeting attendee
