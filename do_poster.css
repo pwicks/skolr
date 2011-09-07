@@ -1,0 +1,111 @@
+/* Poster View 
+/-------------------------------------------------------------- */
+.poster-title .field-field-poster-title {
+  font-size: 2em;
+  padding: 5px 0;
+}
+body.node-type-poster h2 {
+  font-size: 1.1em;
+}
+
+body.node-type-poster .pane-field-abstract .inner h2 {
+  font-size: 1.4em;
+}
+.poster-main {
+  margin: 10px 0;
+}
+.poster-authors {
+  margin: 20px 0;
+}
+
+#poster-institutions, #poster-grants {
+  margin: 10px 0;
+}
+
+/* Meeting Admin 
+/-------------------------------------------------------------- */
+#meeting-admin-print .views-field-title {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+#meeting-admin-print .views-field-field-poster-authors-value label,
+#meeting-admin-print .views-field-field-abstract-value label{
+  font-weight: bold;
+}
+
+#meeting-admin-print .views-field-field-poster-authors-value,
+#meeting-admin-print .views-field-field-abstract-value {
+  margin-top: 10px;
+}
+
+#meeting-admin-print .views-row {
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+#meeting-admin-list .views-field-created,
+#meeting-admin-list .views-field-changed {
+  width: 85px;
+  text-align: center;
+}
+
+/* Meeting Header 
+/-------------------------------------------------------------- */
+.meeting-header .views-field-title {
+  font-size: 1.4em;
+}
+
+.meeting-header .panel-col-first {
+  padding-top: 20px;
+}
+
+/* Meeting Home 
+/-------------------------------------------------------------- */
+body.node-type-meeting {
+  color: #005188;
+}
+
+body.node-type-meeting h1.title {
+  display: none;
+}
+
+.dops-meeting-header .panel-pane {
+  line-height: 150%;
+}
+.pane-field-meeting-title {
+  font-size: 2em;
+}
+.pane-field-meeting-location,
+.pane-field-meetings-dates {
+   font-size: 1.5em;
+}
+.pane-field-meetings-dates {
+}
+
+#views-exposed-form-meeting-posters-panel-pane-1 #edit-search-wrapper input {
+  width: 100%;
+}
+
+.view-meeting-posters td {
+  vertical-align: top;
+  width: 33%;
+  border: 1px solid #efefef;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.view-meeting-posters .views-field-field-poster-fid {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.view-meeting-posters .views-field-nothing {
+  
+  font-weight: bold;
+}
+
+.view-meeting-posters .views-field-view-node {
+  font-style: italic;
+}

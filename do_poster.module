@@ -3,6 +3,14 @@
 include_once('do_poster.features.inc');
 
 /**
+ * Implementation of hook_init().
+ */
+function do_poster_init() {
+  drupal_add_css(drupal_get_path('module', 'do_poster') . '/do_poster.css');
+}
+
+
+/**
  * Implementation of hook_menu().
  *
  * @return An array of menu items.
