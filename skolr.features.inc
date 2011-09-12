@@ -32,7 +32,7 @@ function skolr_imagecache_default_presets() {
             'text' => '// not resizing, just converting to png; don\'t need $dimension
 //$dimension = \'420\'; // change to your preferred size, single digit is width only (?)
 
-if (!_imageapi_imagemagick_convert($image->source.\'[0]\', 
+if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
                                    $image->source.\'.png\')) {
   return FALSE;
 } else {
@@ -57,8 +57,8 @@ if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
           'data' => array(
             'text' => '$dimension = \'420\'; // change to your preferred size, single digit is width only (?)
 
-if (!_imageapi_imagemagick_convert($image->source.\'[0]\', 
-                                   $image->source.\'.png\', 
+if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
+                                   $image->source.\'.png\',
                                    array(0 => \'-thumbnail \'.$dimension))) {
   return FALSE;
 } else {
@@ -83,8 +83,8 @@ if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
           'data' => array(
             'text' => '$dimension = \'80x80!\'; // change to your preferred size, single digit is width only (?)
 
-if (!_imageapi_imagemagick_convert($image->source.\'[0]\', 
-                                   $image->source.\'.png\', 
+if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
+                                   $image->source.\'.png\',
                                    array(0 => \'-thumbnail \'.$dimension))) {
   return FALSE;
 } else {
@@ -110,6 +110,48 @@ if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
             'width' => '100',
             'height' => '',
             'upscale' => 0,
+          ),
+        ),
+      ),
+    ),
+    'user_image_default' => array(
+      'presetname' => 'user_image_default',
+      'actions' => array(
+        '0' => array(
+          'weight' => '0',
+          'module' => 'imagecache',
+          'action' => 'imagecache_scale_and_crop',
+          'data' => array(
+            'width' => '100',
+            'height' => '100',
+          ),
+        ),
+      ),
+    ),
+    'user_image_large' => array(
+      'presetname' => 'user_image_large',
+      'actions' => array(
+        '0' => array(
+          'weight' => '0',
+          'module' => 'imagecache',
+          'action' => 'imagecache_scale_and_crop',
+          'data' => array(
+            'width' => '200',
+            'height' => '200',
+          ),
+        ),
+      ),
+    ),
+    'user_image_small' => array(
+      'presetname' => 'user_image_small',
+      'actions' => array(
+        '0' => array(
+          'weight' => '0',
+          'module' => 'imagecache',
+          'action' => 'imagecache_scale_and_crop',
+          'data' => array(
+            'width' => '35',
+            'height' => '35',
           ),
         ),
       ),

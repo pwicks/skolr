@@ -249,8 +249,6 @@ function skolr_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
       if (!empty($meeting)) {
         $node->og_groups[$meeting->nid] = $meeting->nid;
-      } else {
-        // TODO: handle error
       }
     break;
 
@@ -258,8 +256,6 @@ function skolr_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       if ($node && $node->type == 'poster') {
         $poster = $node->field_poster[0];
 
-//        dpm($node, 'node');
-//        dpm($poster, 'poster');
         if (!empty($poster)) {
 
           // call imagecache to build presets now
@@ -282,16 +278,18 @@ function skolr_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
  */
 function _skolr_preset_refresh($preset, $file_path) {
 
-  $preset_src = imagecache_create_path($preset, $file_path); //. '.jpg';
+  $preset_src = imagecache_create_path($preset, $file_path);
   $preset_obj = imagecache_preset_by_name($preset);
 
   // if not yet there, or older than the pdf (ie, pdf has been re-uploaded)
+  dpm(filemtime($file_path), filemtime($preset_src));
+  dpm(file_exists($preset_src), 'file exists(' . $preset_src. ')');
   if (!file_exists($preset_src) || (filemtime($file_path) > filemtime($preset_src)) ) {
     $success = imagecache_build_derivative($preset_obj['actions'], $file_path, $preset_src);
     if ($success) {
-      watchdog('skolr', 'skolr_nodeapi:save - built new derivative for !file at !derviative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_INFO);
+      watchdog('skolr', 'skolr_nodeapi:save - built new derivative for !file at !derivative', array('!file' => $file_path, '!derivative' => $preset_src), WATCHDOG_INFO);
     } else {
-      watchdog('skolr', 'skolr_nodeapi:save - imagecache_build_derivative() failed using file !file and derivative !derivative', array('file' => $file_path, 'derivative' => $preset_src), WATCHDOG_WARNINGC);
+      watchdog('skolr', 'skolr_nodeapi:save - imagecache_build_derivative() failed using file !file and derivative !derivative', array('!file' => $file_path, '!derivative' => $preset_src), WATCHDOG_WARNINGC);
     }
   }
 }
@@ -462,4 +460,34 @@ function skolr_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return 'panels/' . $plugin;
   }
+}
+
+function computed_field_field_poster_search_computed_compute($node, $field, &$node_field) {
+
+  $authors = $institutions = $grants = array();
+
+  foreach ($node->field_poster_authors as $author) {
+    $authors[] = $author['value'];
+  }
+
+  foreach ($node->field_poster_institutions as $institution) {
+    $institutions[] = $institution['value'];
+  }
+
+  foreach ($node->field_poster_grants as $grant) {
+    $grants[] = $grant['value'];
+  }
+
+  $tags = is_array($node->taxonomy['tags']) ? $node->taxonomy['tags'] : array();
+
+  $ret = array(
+    $node->field_poster_title[0]['value'],
+    $node->field_abstract[0]['value'],
+    implode(' ', $authors),
+    implode(' ', $institutions),
+    implode(' ', $grants),
+    implode(' ', $tags),
+  );
+
+  $node_field[0]['value'] = implode(' ', $ret);
 }

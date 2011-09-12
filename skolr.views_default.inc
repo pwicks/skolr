@@ -926,6 +926,126 @@ function skolr_views_default_views() {
 
   $views[$view->name] = $view;
 
+  // Exported view: og_members_faces_OR
+  $view = new view;
+  $view->name = 'og_members_faces_OR';
+  $view->description = 'Override Member listing in grid with user pictures';
+  $view->tag = 'og';
+  $view->base_table = 'users';
+  $view->human_name = '';
+  $view->core = 0;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Defaults */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['title'] = 'Group faces';
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = 25;
+  $handler->display->display_options['style_plugin'] = 'grid';
+  $handler->display->display_options['style_options']['columns'] = '3';
+  $handler->display->display_options['style_options']['fill_single_line'] = 1;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['inline'] = array(
+    'name' => 'name',
+    'is_manager' => 'is_manager',
+    'is_admin' => 'is_admin',
+  );
+  /* Empty text: Global: Text area */
+  $handler->display->display_options['empty']['text']['id'] = 'area';
+  $handler->display->display_options['empty']['text']['table'] = 'views';
+  $handler->display->display_options['empty']['text']['field'] = 'area';
+  $handler->display->display_options['empty']['text']['label'] = '';
+  $handler->display->display_options['empty']['text']['empty'] = FALSE;
+  $handler->display->display_options['empty']['text']['content'] = 'No members.';
+  $handler->display->display_options['empty']['text']['format'] = '1';
+  /* Field: User: Picture */
+  $handler->display->display_options['fields']['picture']['id'] = 'picture';
+  $handler->display->display_options['fields']['picture']['table'] = 'users';
+  $handler->display->display_options['fields']['picture']['field'] = 'picture';
+  $handler->display->display_options['fields']['picture']['label'] = '';
+  $handler->display->display_options['fields']['picture']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['picture']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['picture']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['picture']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['picture']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['picture']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['picture']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['picture']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['picture']['imagecache_preset'] = 'user_image_small';
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['max_length'] = '30';
+  $handler->display->display_options['fields']['name']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['name']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['name']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['name']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['name']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['name']['link_to_user'] = 1;
+  $handler->display->display_options['fields']['name']['overwrite_anonymous'] = 0;
+  /* Field: Organic groups: OG: Is member an admin in a group */
+  $handler->display->display_options['fields']['is_admin']['id'] = 'is_admin';
+  $handler->display->display_options['fields']['is_admin']['table'] = 'og_uid';
+  $handler->display->display_options['fields']['is_admin']['field'] = 'is_admin';
+  $handler->display->display_options['fields']['is_admin']['label'] = '';
+  /* Sort criterion: Organic groups: OG: Is member an admin in a group */
+  $handler->display->display_options['sorts']['is_admin']['id'] = 'is_admin';
+  $handler->display->display_options['sorts']['is_admin']['table'] = 'og_uid';
+  $handler->display->display_options['sorts']['is_admin']['field'] = 'is_admin';
+  $handler->display->display_options['sorts']['is_admin']['order'] = 'DESC';
+  /* Sort criterion: User: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'users';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  /* Argument: Organic groups: Group node */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'og_uid';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['nid']['style_plugin'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['title'] = 'Members of %1';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['validate_type'] = 'og_group_types';
+  $handler->display->display_options['arguments']['nid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['nid']['not'] = 0;
+  /* Filter: User: Active */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter: Organic groups: OG: Is membership approved */
+  $handler->display->display_options['filters']['is_active']['id'] = 'is_active';
+  $handler->display->display_options['filters']['is_active']['table'] = 'og_uid';
+  $handler->display->display_options['filters']['is_active']['field'] = 'is_active';
+  $handler->display->display_options['filters']['is_active']['value'] = 1;
+  $handler->display->display_options['filters']['is_active']['group'] = 0;
+  $handler->display->display_options['filters']['is_active']['expose']['operator'] = FALSE;
+
+  $views[$view->name] = $view;
+
   // Exported view: og_members_meeting
   $view = new view;
   $view->name = 'og_members_meeting';

@@ -5,6 +5,7 @@
  */
 function skolr_default_page_manager_handlers() {
   $export = array();
+
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
@@ -185,8 +186,8 @@ function skolr_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-
   $export['node_edit_panel_context'] = $handler;
+
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
@@ -539,8 +540,8 @@ function skolr_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-
   $export['node_view_panel_context_4'] = $handler;
+
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
@@ -1171,8 +1172,8 @@ function skolr_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-
   $export['node_view_panel_context_5'] = $handler;
+
   return $export;
 }
 

@@ -53,6 +53,15 @@ projects[gmap_geo][subdir] = "contrib"
 
 projects[imagecache][version] = 2.0-beta12
 projects[imagecache][subdir] = "contrib"
+; following patch is required to make pdf conversion to jpg possible
+; see http://drupal.org/node/641372 (patch may need to be re-rolled if imagecache itself is upgraded)
+projects[imagecache][patch][] = http://drupal.org/files/issues/imagecache_32.patch
+
+projects[imagecache_customactions][version] = 1.8
+projects[imagecache_customactions][subdir] = "contrib"
+
+projects[imagecache_profiles][version] = 1.3
+projects[imagecache_profiles][subdir] = "contrib"
 
 projects[imagefield][version] = 3.10
 projects[imagefield][subdir] = "contrib"
@@ -98,6 +107,15 @@ projects[strongarm][version] = 2.0
 projects[strongarm][patch][] = "http://drupal.org/files/issues/792472_15_node_pipe.patch"
 projects[strongarm][subdir] = "contrib"
 
+; needed for pdf > jpg conversion
+projects[filefield_paths][version] = 1.4
+projects[diff][subdir] = "contrib"
+
+; needed for pdf > jpg conversion
+projects[pathauto][version] = 2.0-rc2
+projects[pathauto][subdir] = "contrib"
+
+; needed for pdf > jpg conversion
 projects[transliteration][version] = 3.0
 projects[transliteration][subdir] = "contrib"
 
