@@ -213,7 +213,7 @@ function skolr_views_default_views() {
     'group_nid' => array(
       'type' => 'context',
       'context' => 'node.nid',
-      'context_optional' => 1,
+      'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
       'label' => 'Organic groups: Groups',
