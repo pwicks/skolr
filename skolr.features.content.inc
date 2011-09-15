@@ -1001,7 +1001,7 @@ function skolr_content_default_fields() {
         'exclude' => 0,
       ),
       'full' => array(
-        'format' => 'pdf-preview_default',
+        'format' => 'imagefield__lightbox2__pdf-preview__pdf-orig',
         'exclude' => 0,
       ),
       '4' => array(

@@ -392,6 +392,31 @@ function skolr_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'location';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Create/edit button',
+      'title' => '',
+      'body' => '<?php
+
+?>',
+      'format' => '1',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['location'][1] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'location';
     $pane->type = 'block';
     $pane->subtype = 'skolr-0';
     $pane->shown = TRUE;
@@ -406,11 +431,11 @@ function skolr_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-2'] = $pane;
-    $display->panels['location'][1] = 'new-2';
+    $pane->position = 2;
+    $display->content['new-3'] = $pane;
+    $display->panels['location'][2] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'location';
     $pane->type = 'block';
     $pane->subtype = 'views-9e2735789eaaa4e68dc9cc0c890463d6';
@@ -427,11 +452,11 @@ function skolr_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
-    $display->content['new-3'] = $pane;
-    $display->panels['location'][2] = 'new-3';
+    $pane->position = 3;
+    $display->content['new-4'] = $pane;
+    $display->panels['location'][3] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'logo';
     $pane->type = 'views';
     $pane->subtype = 'og_members_faces_OR';
@@ -466,10 +491,10 @@ function skolr_default_page_manager_handlers() {
     );
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['logo'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['logo'][0] = 'new-5';
     $pane = new stdClass;
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-6';
     $pane->panel = 'meeting_header';
     $pane->type = 'page_tabs';
     $pane->subtype = 'page_tabs';
@@ -488,10 +513,10 @@ function skolr_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-5'] = $pane;
-    $display->panels['meeting_header'][0] = 'new-5';
+    $display->content['new-6'] = $pane;
+    $display->panels['meeting_header'][0] = 'new-6';
     $pane = new stdClass;
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-7';
     $pane->panel = 'meeting_header';
     $pane->type = 'views_panes';
     $pane->subtype = 'meeting_posters-panel_pane_1';
@@ -509,10 +534,10 @@ function skolr_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $display->content['new-6'] = $pane;
-    $display->panels['meeting_header'][1] = 'new-6';
+    $display->content['new-7'] = $pane;
+    $display->panels['meeting_header'][1] = 'new-7';
     $pane = new stdClass;
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-8';
     $pane->panel = 'meeting_header_';
     $pane->type = 'panels_mini';
     $pane->subtype = 'meeting_header_meeting';
@@ -535,8 +560,8 @@ function skolr_default_page_manager_handlers() {
     );
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-7'] = $pane;
-    $display->panels['meeting_header_'][0] = 'new-7';
+    $display->content['new-8'] = $pane;
+    $display->panels['meeting_header_'][0] = 'new-8';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

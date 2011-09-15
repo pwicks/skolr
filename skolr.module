@@ -154,7 +154,7 @@ function skolr_form_alter(&$form, $form_state, $form_id) {
         );
       }
       // display the deadline and disable publish checkbox if necessary
-      $form['options']['status']['#description'] = 'Publishing your poster makes it visible to other meeting attendees.';
+      $form['options']['status']['#description'] = 'De-selecting unpublishes your poster and puts it in draft mode (only you can see it).';
       $cck_deadline = array_shift($meeting->field_meeting_deadline);
       $deadline = new DateTime($cck_deadline['value']);
       $now = new DateTime();
