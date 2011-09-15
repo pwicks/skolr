@@ -186,13 +186,10 @@ function skolr_strongarm() {
     'comment_settings' => '154',
     'menu' => '144',
     'path' => '153',
-    'creativecommons' => '156',
     'og_description' => '140',
     'og_selective' => '147',
     'og_register' => '148',
     'og_directory' => '149',
-    'print' => '155',
-    'og_private' => '145',
   );
   $export['content_extra_weights_meeting'] = $strongarm;
 
@@ -655,7 +652,9 @@ function skolr_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_poster';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    0 => 'status',
+  );
   $export['node_options_poster'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -972,7 +971,7 @@ function skolr_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'og_max_groups_poster';
-  $strongarm->value = '1';
+  $strongarm->value = '';
   $export['og_max_groups_poster'] = $strongarm;
 
   $strongarm = new stdClass;
