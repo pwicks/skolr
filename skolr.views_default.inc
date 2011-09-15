@@ -513,6 +513,9 @@ function skolr_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = 0;
+  $handler->display->display_options['exposed_form']['options']['autosubmit_hide'] = 0;
   $handler->display->display_options['pager']['type'] = 'mini';
   $handler->display->display_options['pager']['options']['items_per_page'] = 24;
   $handler->display->display_options['style_plugin'] = 'grid';
@@ -649,6 +652,7 @@ function skolr_views_default_views() {
   $handler->display->display_options['filters']['field_poster_search_computed_value']['operator'] = 'word';
   $handler->display->display_options['filters']['field_poster_search_computed_value']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_poster_search_computed_value']['expose']['operator'] = 'field_poster_search_computed_value_op';
+  $handler->display->display_options['filters']['field_poster_search_computed_value']['expose']['limit_operators'] = array();
   $handler->display->display_options['filters']['field_poster_search_computed_value']['expose']['label'] = 'Containing';
   $handler->display->display_options['filters']['field_poster_search_computed_value']['expose']['identifier'] = 'search';
   $handler->display->display_options['filters']['field_poster_search_computed_value']['expose']['optional'] = 1;
@@ -657,6 +661,15 @@ function skolr_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
   $handler->display->display_options['pane_title'] = 'Meeting Poster Gallery';
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 0;
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'group_nid' => array(
       'type' => 'context',
@@ -948,7 +961,7 @@ function skolr_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = 25;
   $handler->display->display_options['style_plugin'] = 'grid';
-  $handler->display->display_options['style_options']['columns'] = '3';
+  $handler->display->display_options['style_options']['columns'] = '2';
   $handler->display->display_options['style_options']['fill_single_line'] = 1;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['inline'] = array(
