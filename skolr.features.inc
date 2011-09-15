@@ -33,7 +33,8 @@ function skolr_imagecache_default_presets() {
 //$dimension = \'420\'; // change to your preferred size, single digit is width only (?)
 
 if (!_imageapi_imagemagick_convert($image->source.\'[0]\',
-                                   $image->source.\'.png\')) {
+                                   $image->source.\'.png\',
+                                   array())) {
   return FALSE;
 } else {
   $img = imagecreatefrompng($image->source.\'.png\');
