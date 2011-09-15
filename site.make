@@ -5,7 +5,7 @@ api = 2
 
 projects[drupal][version] = 6.22
 
-includes[skolr] = 'skolr.make'
+;includes[skolr] = 'skolr.make'
 
 projects[admin][version] = 2.0
 projects[admin][subdir] = "contrib"
@@ -57,6 +57,9 @@ projects[imagecache][subdir] = "contrib"
 ; see http://drupal.org/node/641372 (patch may need to be re-rolled if imagecache itself is upgraded)
 projects[imagecache][patch][] = http://drupal.org/files/issues/imagecache_32.patch
 
+projects[imagecache_actions][version] = 1.8
+projects[imagecache_actions][subdir] = "contrib"
+
 projects[imagecache_profiles][version] = 1.3
 projects[imagecache_profiles][subdir] = "contrib"
 
@@ -100,6 +103,12 @@ projects[panels][version] = 3.9
 projects[panels][subdir] = "contrib"
 ; enable panels_mini, taxonomy
 
+projects[tabs][version] = 1.x-dev
+projects[tabs][subdir] = "contrib"
+
+projects[panels_tabs][version] = 1.0-rc6
+projects[panels_tabs][subdir] = "contrib"
+
 projects[strongarm][version] = 2.0
 projects[strongarm][patch][] = "http://drupal.org/files/issues/792472_15_node_pipe.patch"
 projects[strongarm][subdir] = "contrib"
@@ -111,6 +120,10 @@ projects[diff][subdir] = "contrib"
 ; needed for pdf > jpg conversion
 projects[pathauto][version] = 2.0-rc2
 projects[pathauto][subdir] = "contrib"
+
+; needed for pdf > jpg conversion
+projects[token][version] = 1.16
+projects[token][subdir] = "contrib"
 
 ; needed for pdf > jpg conversion
 projects[transliteration][version] = 3.0
