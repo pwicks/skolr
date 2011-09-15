@@ -5,7 +5,10 @@ api = 2
 
 projects[drupal][version] = 6.22
 
-;includes[skolr] = 'skolr.make'
+projects[skolr][type] = module
+projects[skolr][download][type] = git
+projects[skolr][download][url] = git@github.com:ezwart/skolr.git
+projects[skolr][subdir] = 'custom'
 
 projects[admin][version] = 2.0
 projects[admin][subdir] = "contrib"
@@ -144,3 +147,6 @@ projects[filefield][subdir] = "contrib"
 
 projects[views][version] = 3.x-dev
 projects[views][subdir] = "contrib"
+
+projects[views_bulk_operations][version] = 1.10
+projects[views_bulk_operations][subdir] = "contrib"

@@ -1,44 +1,15 @@
-To build a drupal site using this feature, clone the repo, and run the dependencies.make file using Drush Make.  
+To build a drupal site using this feature, run the make file located at:
 
-Note: You'll need drush (http://drupal.org/project/drush) and drush make (http://drupal.org/project/drush_make) to use this method.
+https://raw.github.com/ezwart/skolr/master/skolr.site.build
+  
+Note: You'll need to set up drush (http://drupal.org/project/drush) 
+and drush make (http://drupal.org/project/drush_make) to use this method.
 
-Steps:
+Example:
 
-1. clone the repo
-2. drush make a drupal installation with all the necessary modules
-3. create a db and user (optional: use if setting up the site for the first time)
-4. no db yet: drush si to setup a db and settings.php file
-   have db: edit settings php
-5. enable the skolr module
+$ wget https://raw.github.com/ezwart/skolr/master/skolr.site.build
+$ drush make --prepare-install --contrib-destination=sites/default skolr.site.build drupal
 
-Example 1 (no db yet):
-
-$ git clone git://github.com/ezwart/skolr.git
-$ cd skolr
-$ drush make --prepare-install --contrib-destination=sites/default site.make drupal
-$ mysql -u root -p
-
-mysql> CREATE DATABASE skolr;
-mysql> GRANT ALL ON skolr.* TO skolr@localhost IDENTIFIED BY 'fakepwd';
-mysql> exit
-
-$ cd drupal
-$ drush si --db-url="mysql://skolr:fakepwd@localhost/skolr" --site-name="Skolr"
-$ drush en skolr -y
-
-Example 2 (starting with an existing db):
-
-$ git clone git://github.com/ezwart/skolr.git
-$ drush make --prepare-install --contrib-destination=sites/default site.make drupal
-$ cd drupal/sites/default
-$ nano settings.php (edit $db_url)
-$ drush en skolr -y
-
-
-Note: after following these steps you'll have this repo in two places.  
-
-1. the actual repo in the root folder (with .git folder), where you can make changes and commit/push them
-2. the feature as part of the drupal site; you'll need to re-run drush si to get the lateset changes
-
-Note, this is just one workflow.  You can of course set things up some other preferred way and change the relevant parts of the example accordingly.
-
+This will create a folder named "drupal" in the current directory, and set up a settings.php
+file in drupal/sites/default.  Contrib modules will be located in drupal/sites/default/modules/contrib, 
+and the skolr feature will be in drupal/sites/default/modules/custom.
