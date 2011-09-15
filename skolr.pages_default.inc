@@ -400,16 +400,58 @@ function skolr_default_page_manager_handlers() {
       'admin_title' => 'Create/edit button',
       'title' => '',
       'body' => '<?php
+global $user;
+$meeting = og_get_group_context();
 
+if (in_array(\'poster presenter\', $user->roles) && node_access(\'create\', \'poster\', $user)) {
+
+    // check if user has existing poster in this meeting
+    $q = "select n1.nid from og_ancestry n1 where n1.group_nid = %d and n1.nid in (select n2.nid from node n2 where uid = %d)";
+    $result = db_result(db_query($q, $meeting->nid, $user->uid));
+
+    if (!empty($result)) {
+      // user has poster in this meeting
+      $poster = node_load($result);
+
+      $links[\'view_poster\'] = l(t(\'View Poster\'), $poster->path,
+        array(
+          \'attributes\' => array(\'title\' => t(\'View your poster\')),
+        ));
+
+      print l(t(\'Edit Poster\'), \'node/\' . $poster->nid . \'/edit\',
+        array(
+          \'attributes\' => array(\'title\' => t(\'Edit your poster\')),
+        ));
+
+
+    } else {
+      // user doesn\'t have poster, check meeting not full
+      $q = "select count(*) from og_ancestry where group_nid = %d";
+      $result = db_result(db_query($q, $meeting->nid));
+
+      if ($result < $meeting->field_meeting_max_posters[0][\'value\']) {
+        // meeting not full
+        print l(t(\'Create Poster\'), "node/add/poster", array(
+  			\'attributes\' => array(\'title\' => t(\'Add a new poster to this meeting.\')),
+  			\'query\' => "gids[]=$meeting->nid",
+          ));
+      } else {
+        drupal_set_message("Meeting full.  No new posters can be added to this meeting. Contact the meeting organizer for further details.");
+      }
+    }
+  }
 ?>',
-      'format' => '1',
-      'substitute' => 1,
+      'format' => '3',
+      'substitute' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => 'poster-action-link',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $display->content['new-2'] = $pane;
@@ -436,27 +478,6 @@ function skolr_default_page_manager_handlers() {
     $display->panels['location'][2] = 'new-3';
     $pane = new stdClass;
     $pane->pid = 'new-4';
-    $pane->panel = 'location';
-    $pane->type = 'block';
-    $pane->subtype = 'views-9e2735789eaaa4e68dc9cc0c890463d6';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'inherit_path' => 1,
-      'override_title' => 1,
-      'override_title_text' => 'Search posters',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $display->content['new-4'] = $pane;
-    $display->panels['location'][3] = 'new-4';
-    $pane = new stdClass;
-    $pane->pid = 'new-5';
     $pane->panel = 'logo';
     $pane->type = 'views';
     $pane->subtype = 'og_members_faces_OR';
@@ -491,10 +512,10 @@ function skolr_default_page_manager_handlers() {
     );
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-5'] = $pane;
-    $display->panels['logo'][0] = 'new-5';
+    $display->content['new-4'] = $pane;
+    $display->panels['logo'][0] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-5';
     $pane->panel = 'meeting_header';
     $pane->type = 'page_tabs';
     $pane->subtype = 'page_tabs';
@@ -513,10 +534,10 @@ function skolr_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-6'] = $pane;
-    $display->panels['meeting_header'][0] = 'new-6';
+    $display->content['new-5'] = $pane;
+    $display->panels['meeting_header'][0] = 'new-5';
     $pane = new stdClass;
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-6';
     $pane->panel = 'meeting_header';
     $pane->type = 'views_panes';
     $pane->subtype = 'meeting_posters-panel_pane_1';
@@ -534,10 +555,10 @@ function skolr_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $display->content['new-7'] = $pane;
-    $display->panels['meeting_header'][1] = 'new-7';
+    $display->content['new-6'] = $pane;
+    $display->panels['meeting_header'][1] = 'new-6';
     $pane = new stdClass;
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-7';
     $pane->panel = 'meeting_header_';
     $pane->type = 'panels_mini';
     $pane->subtype = 'meeting_header_meeting';
@@ -560,8 +581,8 @@ function skolr_default_page_manager_handlers() {
     );
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-8'] = $pane;
-    $display->panels['meeting_header_'][0] = 'new-8';
+    $display->content['new-7'] = $pane;
+    $display->panels['meeting_header_'][0] = 'new-7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1338,10 +1359,7 @@ function skolr_default_page_manager_pages() {
       'center' => array(
         'corner_location' => 'pane',
       ),
-      'main_' => array(
-        'title' => '',
-        'filling_tabs' => 'disabled',
-      ),
+      'main_' => NULL,
     ),
     'center' => array(
       'style' => 'rounded_corners',
@@ -1397,6 +1415,7 @@ function skolr_default_page_manager_pages() {
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array(
       'css_id' => 'meeting-admin-list',
