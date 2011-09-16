@@ -282,8 +282,6 @@ function _skolr_preset_refresh($preset, $file_path) {
   $preset_obj = imagecache_preset_by_name($preset);
 
   // if not yet there, or older than the pdf (ie, pdf has been re-uploaded)
-  dpm(filemtime($file_path), filemtime($preset_src));
-  dpm(file_exists($preset_src), 'file exists(' . $preset_src. ')');
   if (!file_exists($preset_src) || (filemtime($file_path) > filemtime($preset_src)) ) {
     $success = imagecache_build_derivative($preset_obj['actions'], $file_path, $preset_src);
     if ($success) {
