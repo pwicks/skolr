@@ -13,3 +13,8 @@ $ drush make --prepare-install --contrib-destination=sites/default skolr.site.bu
 This will create a folder named "drupal" in the current directory, and set up a settings.php
 file in drupal/sites/default.  Contrib modules will be located in drupal/sites/default/modules/contrib, 
 and the skolr feature will be in drupal/sites/default/modules/custom.
+
+Note: you might need a "libraries" symlink in site/all to sites/default/libraries, eg
+
+$ cd drupal/sites/all
+$ ln -s ../default/libraries libraries 
