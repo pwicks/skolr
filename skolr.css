@@ -113,3 +113,43 @@ body.node-type-meeting h1.title {
 .view-meeting-posters .views-field-view-node {
   font-style: italic;
 }
+
+.view-og-members-faces-OR .picture {
+	float: none;
+	padding: 0;
+}
+
+.view-og-members-faces-OR td {
+	vertical-align: top;
+}
+
+
+#poster-action-link div.pane-content {
+	
+}
+
+#poster-action-link a {
+  color: #474344;
+  font-size: 14px;
+  padding: 5px 10px;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-box-shadow: 1px 1px 2px #666666;
+  -moz-box-shadow: 1px 1px 2px #666666;
+  text-shadow: 1px 1px 1px #858585;
+  border: solid #9abeda 1px;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#f1f1f1), to(#dcdcdc));
+  background: -moz-linear-gradient(top, #f1f1f1, #dcdcdc);
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#f1f1f1, endColorStr=#dcdcdc);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#f1f1f1, endColorStr=#dcdcdc);
+  display:inline-block; /* IE */
+}
+
+#poster-action-link a.edit-link {
+	
+}
+
+#poster-action-link a.create-link {
+	
+}
