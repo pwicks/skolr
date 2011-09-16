@@ -91,20 +91,6 @@ function skolr_views_default_views() {
   $handler->display->display_options['fields']['name']['empty_zero'] = 0;
   $handler->display->display_options['fields']['name']['link_to_user'] = 1;
   $handler->display->display_options['fields']['name']['overwrite_anonymous'] = 0;
-  /* Field: Node: Published */
-  $handler->display->display_options['fields']['status']['id'] = 'status';
-  $handler->display->display_options['fields']['status']['table'] = 'node';
-  $handler->display->display_options['fields']['status']['field'] = 'status';
-  $handler->display->display_options['fields']['status']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['status']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['status']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['status']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['status']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['status']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['status']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['status']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['status']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: Node: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -135,6 +121,28 @@ function skolr_views_default_views() {
   $handler->display->display_options['fields']['changed']['empty_zero'] = 0;
   $handler->display->display_options['fields']['changed']['date_format'] = 'custom';
   $handler->display->display_options['fields']['changed']['custom_date_format'] = 'M j, Y';
+  /* Field: Node: Publish link */
+  $handler->display->display_options['fields']['publishcontent']['id'] = 'publishcontent';
+  $handler->display->display_options['fields']['publishcontent']['table'] = 'node';
+  $handler->display->display_options['fields']['publishcontent']['field'] = 'publishcontent';
+  $handler->display->display_options['fields']['publishcontent']['label'] = '';
+  $handler->display->display_options['fields']['publishcontent']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['publishcontent']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['publishcontent']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['publishcontent']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['publishcontent']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['publishcontent']['hide_alter_empty'] = 0;
   /* Argument: Organic groups: Groups */
   $handler->display->display_options['arguments']['group_nid']['id'] = 'group_nid';
   $handler->display->display_options['arguments']['group_nid']['table'] = 'og_ancestry';
@@ -154,38 +162,48 @@ function skolr_views_default_views() {
     'counter' => 'counter',
     'title' => 'title',
     'name' => 'name',
-    'status' => 'status',
     'created' => 'created',
     'changed' => 'changed',
+    'publishcontent' => 'publishcontent',
   );
   $handler->display->display_options['style_options']['default'] = 'created';
   $handler->display->display_options['style_options']['info'] = array(
     'counter' => array(
+      'align' => '',
       'separator' => '',
     ),
     'title' => array(
       'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
       'separator' => '',
     ),
     'name' => array(
       'sortable' => 1,
-      'separator' => '',
-    ),
-    'status' => array(
-      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
       'separator' => '',
     ),
     'created' => array(
       'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
       'separator' => '',
     ),
     'changed' => array(
       'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+    ),
+    'publishcontent' => array(
+      'align' => '',
       'separator' => '',
     ),
   );
   $handler->display->display_options['style_options']['override'] = 1;
   $handler->display->display_options['style_options']['sticky'] = 0;
+  $handler->display->display_options['style_options']['empty_table'] = 0;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
@@ -219,7 +237,7 @@ function skolr_views_default_views() {
       'label' => 'Organic groups: Groups',
     ),
   );
-  $handler->display->display_options['inherit_panels_path'] = '0';
+  $handler->display->display_options['inherit_panels_path'] = '1';
 
   /* Display: With Abstracts */
   $handler = $view->new_display('panel_pane', 'With Abstracts', 'panel_pane_2');
@@ -304,6 +322,7 @@ function skolr_views_default_views() {
       'label' => 'Organic groups: Groups',
     ),
   );
+  $handler->display->display_options['inherit_panels_path'] = '1';
 
   $views[$view->name] = $view;
 
@@ -958,8 +977,11 @@ function skolr_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = 25;
+  $handler->display->display_options['pager']['type'] = 'mini';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '24';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = 0;
   $handler->display->display_options['style_plugin'] = 'grid';
   $handler->display->display_options['style_options']['columns'] = '2';
   $handler->display->display_options['style_options']['fill_single_line'] = 1;
