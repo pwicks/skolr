@@ -44,16 +44,6 @@ projects[cck][subdir] = "contrib"
 projects[cck_count][version] = 1.x-dev
 projects[cck_count][subdir] = "contrib"
 
-projects[geo][version] = 1.0-alpha5
-projects[geo][subdir] = "contrib"
-; enable geo_field
-
-projects[gmap][version] = 1.1
-projects[gmap][subdir] = "contrib"
-
-projects[gmap_geo][version] = 1.x-dev
-projects[gmap_geo][subdir] = "contrib"
-
 projects[imagecache][version] = 2.0-beta12
 projects[imagecache][subdir] = "contrib"
 ; following patch is required to make pdf conversion to jpg possible
@@ -102,6 +92,9 @@ projects[og_reg_keys][subdir] = "contrib"
 projects[override_node_options][version] = 1.12
 projects[override_node_options][subdir] = "contrib"
 
+projects[publishcontent][version] = 1.4
+projects[publishcontent][subdir] = "contrib"
+
 projects[panels][version] = 3.9
 projects[panels][subdir] = "contrib"
 ; enable panels_mini, taxonomy
@@ -118,7 +111,7 @@ projects[strongarm][subdir] = "contrib"
 
 ; needed for pdf > jpg conversion
 projects[filefield_paths][version] = 1.4
-projects[diff][subdir] = "contrib"
+projects[filefield_paths][subdir] = "contrib"
 
 ; needed for pdf > jpg conversion
 projects[pathauto][version] = 2.0-rc2
