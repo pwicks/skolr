@@ -420,7 +420,7 @@ if (in_array(\'poster presenter\', $user->roles) && node_access(\'create\', \'po
 
       print l(t(\'Edit Poster\'), \'node/\' . $poster->nid . \'/edit\',
         array(
-          \'attributes\' => array(\'title\' => t(\'Edit your poster\')),
+          \'attributes\' => array(\'title\' => t(\'Edit your poster\'), \'class\' => \'edit-link\',),
         ));
 
 
@@ -432,7 +432,7 @@ if (in_array(\'poster presenter\', $user->roles) && node_access(\'create\', \'po
       if ($result < $meeting->field_meeting_max_posters[0][\'value\']) {
         // meeting not full
         print l(t(\'Create Poster\'), "node/add/poster", array(
-  			\'attributes\' => array(\'title\' => t(\'Add a new poster to this meeting.\')),
+  			\'attributes\' => array(\'title\' => t(\'Add a new poster to this meeting.\'), \'class\' => \'create-link\',),
   			\'query\' => "gids[]=$meeting->nid",
           ));
       } else {
@@ -1359,7 +1359,10 @@ function skolr_default_page_manager_pages() {
       'center' => array(
         'corner_location' => 'pane',
       ),
-      'main_' => NULL,
+      'main_' => array(
+        'title' => '',
+        'filling_tabs' => 'disabled',
+      ),
     ),
     'center' => array(
       'style' => 'rounded_corners',
